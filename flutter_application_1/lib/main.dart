@@ -33,6 +33,8 @@ class _MyWidgetState extends State<MyWidget> {
   ];
 
   String _selectedItem = '';
+  TextEditingController inputController = TextEditingController();
+  TextEditingController inputController2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,39 +47,49 @@ class _MyWidgetState extends State<MyWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // TypeAheadField(
-            //   // textFieldConfiguration: TextFieldConfiguration(
-            //   //   controller: _controller,
-            //   //   decoration: InputDecoration(
-            //   //     labelText: 'Search for a fruit',
-            //   //     border: OutlineInputBorder(),
-            //   //   ),
-            //   // ),
-            //   suggestionsCallback: (pattern) async {
-            //     return _suggestions
-            //         .where((fruit) =>
-            //             fruit.toLowerCase().contains(pattern.toLowerCase()))
-            //         .toList();
-            //   },
-            //   itemBuilder: (context, suggestion) {
-            //     return ListTile(
-            //       title: Text(suggestion),
-            //     );
-            //   },
-            //   // onSuggestionSelected: (suggestion) {
-            //   //   setState(() {
-            //   //     _controller.text = suggestion;
-            //   //     _selectedItem = suggestion;
-            //   //   });
-            //   // },
-            //   onSelected: (String value) {},
-            // ),
-            // SizedBox(height: 20),
-            // Text(
-            //   'Selected item: $_selectedItem',
-            //   style: TextStyle(fontSize: 18),
-            // ),
-            Text('datassstgit vvvvv bbbb')
+            TypeAheadField(
+              controller: inputController,
+              // textFieldConfiguration: TextFieldConfiguration(
+              //   controller: _controller,
+              //   decoration: InputDecoration(
+              //     labelText: 'Search for a fruit',
+              //     border: OutlineInputBorder(),
+              //   ),
+              // ),
+              suggestionsCallback: (pattern) async {
+                return _suggestions
+                    .where((fruit) =>
+                        fruit.toLowerCase().contains(pattern.toLowerCase()))
+                    .toList();
+              },
+              itemBuilder: (context, value) {
+                return ListTile(
+                  title: Text(value),
+                );
+              },
+              hideOnEmpty: true,
+
+              onSelected: (String value) {
+                setState(() {
+                  inputController = TextEditingController(text: value);
+                  _selectedItem = value;
+                  inputController2.text = value;
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: inputController2,
+              decoration: InputDecoration(
+                labelText: 'Search for a fruit',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            Text(
+              'Selected item: $_selectedItem',
+              style: TextStyle(fontSize: 18),
+            ),
+            Text('datassstgit vvvvv bbbb'),
           ],
         ),
       ),
